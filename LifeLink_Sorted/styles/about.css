@@ -1,0 +1,204 @@
+/* This stylesheet contains styles specific to the about.html page. */
+.page-header {
+    text-align: center;
+    padding: 60px 40px;
+    background: #fdf6f6;
+    color: #880808;
+    position: relative;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.page-header h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 20px;
+    margin-bottom: 0;
+}
+
+.page-header h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background-color: #880808;
+    border-radius: 2px;
+}
+
+.content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 40px;
+}
+
+/* Sub-Heading Styles */
+.our-vision-content, .our-team-content {
+    text-align: center;
+}
+
+.our-vision-content h2, 
+.our-team-content h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 60px;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    display: inline-block;
+}
+
+.our-vision-content h2::after, 
+.our-team-content h2::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background-color: #880808;
+    border-radius: 2px;
+}
+
+/* About Sub-page Navigation */
+.about-main-content {
+    display: block;
+}
+
+.about-sub-page {
+    display: none;
+}
+
+.about-sub-page.active {
+    display: block;
+}
+
+.back-button {
+    background-color: #880808;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.3s, transform 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 40px;
+}
+
+.back-button:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+}
+
+.about-intro {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #555;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 40px;
+}
+
+.about-cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+.about-main-card {
+    background: linear-gradient(145deg, #ffffff, #fcebeb);
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-align: center;
+    position: relative;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.about-main-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.about-main-card i {
+    font-size: 3rem;
+    color: #880808;
+    margin-bottom: 25px;
+}
+
+.about-main-card h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.about-main-card p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #666;
+}
+
+.our-vision-content p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.team-member-card {
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
+    text-align: center;
+    padding: 30px 25px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-top: 5px solid #880808;
+}
+
+.team-member-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
+}
+
+.team-member-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto 20px auto;
+    border: 4px solid #880808;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.team-member-card h4 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 5px;
+}
+
+.team-member-card p {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 0;
+}

@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLink Blood Tracker - Search Blood Banks</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font - Inter for a professional look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <style>
+        /* CSS Reset and Base Styles */
+        body,
+        h1,
+        h2,
+        h3,
+        p,
+        ul,
+        a,
+        button,
+        input,
+        select,
+        textarea,
+        table {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        /* 🔴 Sticky Navbar - IMPROVED */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #880808;
+            padding: 15px 40px;
+            color: white;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.3s ease;
+        }
+
+        .nav-primary {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: white;
+            display: flex;
+            align-items: center;
+            letter-spacing: 1px;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 26px;
+        }
+
+        .nav-center {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .nav-center a {
+            text-decoration: none;
+            color: white;
+            font-weight: 500;
+            position: relative;
+            padding: 5px 0;
+            transition: color 0.3s;
+        }
+
+        .nav-center a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 0%;
+            height: 2px;
+            background-color: #ffd1d1;
+            transition: width 0.3s ease;
+        }
+
+        .nav-center a:hover::after {
+            width: 100%;
+        }
+
+        .nav-center a:hover {
+            color: #ffd1d1;
+        }
+
+        .dropdown {
+            position: relative;
+        }
+
+        .dropbtn {
+            background: none;
+            border: none;
+            color: white;
+            font-weight: 500;
+            font-size: 16px;
+            cursor: pointer;
+            position: relative;
+            padding: 5px 0;
+            transition: color 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .dropbtn:hover {
+            color: #ffd1d1;
+        }
+
+        .dropbtn::after {
+            content: " ▼";
+            font-size: 12px;
+            transition: transform 0.3s;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: calc(100% + 5px);
+            background-color: white;
+            color: #333;
+            min-width: 180px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            z-index: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .dropdown-content.show {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .dropdown-content a {
+            padding: 14px 20px;
+            display: block;
+            color: #333;
+            text-decoration: none;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #fcebeb;
+            color: #880808;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-right button {
+            padding: 10px 20px;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid white;
+            color: white;
+        }
+
+        .btn-outline:hover {
+            background-color: white;
+            color: #880808;
+        }
+
+        .btn-filled {
+            background-color: #ffd1d1;
+            border: none;
+            color: #880808;
+        }
+
+        .btn-filled:hover {
+            background-color: white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 🟡 Auth Modal Styles */
+        .auth-modal {
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            z-index: 1001;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.6);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .auth-modal.show {
+            display: flex;
+            /* Show the modal */
+        }
+
+        .auth-box {
+            background-color: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            animation: modal-appear 0.4s ease-out;
+            max-height: 90vh;
+            /* Allow scrolling for long forms */
+            overflow-y: auto;
+            /* Enable vertical scrolling */
+        }
+
+        @keyframes modal-appear {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #333;
+        }
+
+        .auth-box h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .logo-area {
+            margin-bottom: 25px;
+        }
+
+        .auth-box .logo {
+            font-size: 2.8rem;
+            color: #880808;
+            font-weight: 800;
+            text-shadow: none;
+        }
+
+        .auth-box .logo i {
+            color: #880808;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #555;
+            font-size: 1.1rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input[type="date"] {
+            background-color: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #880808;
+            box-shadow: 0 0 0 3px rgba(136, 8, 8, 0.2);
+            outline: none;
+        }
+
+        .auth-button {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #a00a0a 0%, #880808 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .auth-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-link {
+            margin-top: 30px;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .auth-link a {
+            color: #880808;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .auth-link a:hover {
+            text-decoration: underline;
+        }
+
+        .required-star {
+            color: #e74c3c;
+            margin-left: 4px;
+        }
+
+        .consent-group {
+            margin-bottom: 25px;
+            /* Added margin to separate from button */
+            display: flex;
+            align-items: center;
+            /* Vertically align items */
+            justify-content: flex-start;
+        }
+
+        .consent-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.5;
+            text-align: left;
+        }
+
+        .consent-label input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            min-width: 20px;
+            border: 2px solid #880808;
+            border-radius: 50%;
+            margin-right: 12px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .consent-label input[type="checkbox"]:checked {
+            background-color: #880808;
+            border-color: #880808;
+        }
+
+        .consent-label input[type="checkbox"]:checked::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            font-size: 14px;
+            color: white;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* NEW STYLES for this page */
+        .search-section {
+            padding: 60px 40px;
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: #fcfcfc;
+            border-radius: 16px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-section .heading-intro-wrapper {
+            text-align: center;
+            background-color: #fcebeb;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+        }
+
+        .search-section h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #880808;
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .search-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background-color: #880808;
+            border-radius: 2px;
+        }
+
+        .search-section .intro-text {
+            color: #555;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: 0 auto;
+            max-width: 80%;
+        }
+
+        .search-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 35px;
+            margin-bottom: 30px;
+        }
+
+        .search-form .full-width {
+            grid-column: 1 / -1;
+        }
+
+        .search-form button[type="submit"] {
+            grid-column: 1 / -1;
+            margin-top: 20px;
+        }
+
+        .blood-bank-results-section {
+            padding: 40px;
+            max-width: 1100px; /* Increased max-width for the section */
+            margin: 40px auto;
+        }
+
+        .blood-bank-results-section h3 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            border-bottom: 2px solid #e0e0e0;
+            padding-bottom: 15px;
+        }
+
+        .disclaimer {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #ffeeba;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .disclaimer i {
+            font-size: 1.2rem;
+        }
+
+        /* 🟢 Table Styling - IMPROVED FOR PROFESSIONALISM */
+        .blood-bank-table-container {
+            overflow-x: auto;
+            border-radius: 12px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.07);
+            background-color: #fff;
+            border: 1px solid #e0e0e0;
+        }
+
+        .blood-bank-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            table-layout: fixed;
+            /* Ensures columns are fixed width */
+        }
+
+        /* Fixed column widths for a more organized look */
+        .blood-bank-table th:nth-child(1),
+        .blood-bank-table td:nth-child(1) {
+            width: 4%; /* S.No. - Reduced slightly */
+        }
+
+        /* S.No. */
+        .blood-bank-table th:nth-child(2),
+        .blood-bank-table td:nth-child(2) {
+            width: 20%; /* Name - Reduced slightly */
+        }
+
+        /* Name */
+        .blood-bank-table th:nth-child(3),
+        .blood-bank-table td:nth-child(3) {
+            width: 28%; /* Address - Reduced for more space elsewhere */
+        }
+
+        /* Address */
+        .blood-bank-table th:nth-child(4),
+        .blood-bank-table td:nth-child(4) {
+            width: 12%; /* Availability - Increased slightly */
+        }
+
+        /* Availability */
+        .blood-bank-table th:nth-child(5),
+        .blood-bank-table td:nth-child(5) {
+            width: 18%; /* Contact No. - Increased for one line */
+        }
+
+        /* Contact No. */
+        .blood-bank-table th:nth-child(6),
+        .blood-bank-table td:nth-child(6) {
+            width: 18%; /* Email - Increased for one line */
+        }
+
+        /* Email */
+
+
+        .blood-bank-table th,
+        .blood-bank-table td {
+            padding: 18px 20px;
+            /* Increased padding */
+            border-bottom: 1px solid #eee;
+            vertical-align: top;
+            overflow-wrap: break-word;
+            /* Prevents overflow of long text */
+        }
+
+        .blood-bank-table th {
+            background-color: #880808;
+            color: white;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .blood-bank-table th:hover {
+            background-color: #a00a0a;
+        }
+
+        .blood-bank-table th .sort-indicator {
+            margin-left: 8px;
+            font-size: 0.7em;
+            opacity: 0.6;
+            transition: opacity 0.2s ease;
+        }
+
+        .blood-bank-table th.sorted-asc .sort-indicator {
+            opacity: 1;
+            transform: rotate(0deg);
+        }
+
+        .blood-bank-table th.sorted-desc .sort-indicator {
+            opacity: 1;
+            transform: rotate(180deg);
+        }
+
+        .blood-bank-table tbody tr:nth-child(even) {
+            background-color: #fcf0f0;
+            /* Softer alternation color */
+        }
+
+        .blood-bank-table tbody tr.available-row {
+            background-color: #e6ffe6;
+        }
+
+        .blood-bank-table tbody tr.not-available-row {
+            background-color: #ffe6e6;
+        }
+
+        .blood-bank-table tbody tr:hover {
+            background-color: #fcebeb;
+        }
+
+        .blood-bank-table tbody tr.available-row:hover {
+            background-color: #ccffcc;
+        }
+
+        .blood-bank-table tbody tr.not-available-row:hover {
+            background-color: #ffcccc;
+        }
+
+        /* New section for tips */
+        .tips-section {
+            padding: 60px 40px;
+            max-width: 900px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.08);
+            border-top: 5px solid #880808;
+        }
+
+        .tips-section h3 {
+            font-size: 2rem;
+            color: #880808;
+            margin-bottom: 25px;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+        }
+
+        .tips-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 3px;
+            background-color: #880808;
+            border-radius: 2px;
+        }
+
+        .tips-section ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 30px;
+        }
+
+        .tips-section ul li {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .tips-section ul li i {
+            color: #880808;
+            font-size: 1.3rem;
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+
+        .tips-section p.closing-text {
+            margin-top: 30px;
+            font-size: 1.1rem;
+            color: #666;
+            text-align: center;
+            font-style: italic;
+        }
+
+        /* This footer will be used by both pages */
+        .footer {
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+            padding: 60px 40px 20px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .footer-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 40px;
+        }
+
+        .footer-brand,
+        .footer-links,
+        .footer-contact {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-brand .logo {
+            font-size: 2.2rem;
+            color: white;
+        }
+
+        .footer-brand .logo i {
+            margin-right: 10px;
+        }
+
+        .footer-brand p {
+            margin-top: 15px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #b0b0b0;
+        }
+
+        .footer h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .footer-links ul,
+        .footer-contact ul {
+            list-style: none;
+        }
+
+        .footer-links a,
+        .footer-contact p {
+            display: block;
+            color: #b0b0b0;
+            text-decoration: none;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #880808;
+        }
+
+        .social-icons a {
+            display: inline-block;
+            color: #b0b0b0;
+            font-size: 1.5rem;
+            margin-right: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            color: #880808;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .footer-bottom p {
+            font-size: 0.8rem;
+            color: #707070;
+        }
+
+        .footer-bottom p:last-of-type {
+            margin-top: 5px;
+        }
+
+        /* Responsive */
+        @media screen and (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 10px;
+                align-items: flex-start;
+                padding: 15px 20px;
+            }
+
+            .nav-primary {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+                width: 100%;
+            }
+
+            .nav-center {
+                flex-wrap: wrap;
+                gap: 15px;
+                margin-left: 0;
+                width: 100%;
+                justify-content: space-around;
+            }
+
+            .nav-right {
+                margin-top: 10px;
+                width: 100%;
+                justify-content: space-around;
+            }
+
+            .search-section,
+            .blood-bank-results-section,
+            .tips-section {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .search-section h2 {
+                font-size: 2.5rem;
+            }
+
+            .search-form {
+                grid-template-columns: 1fr;
+            }
+
+            .blood-bank-table th,
+            .blood-bank-table td {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- NAVBAR START -->
+    <header class="navbar">
+        <div class="nav-primary">
+            <div class="nav-left">
+                <span class="logo"><a href="lifelink-blood-tracker.html"
+                        style="color:white; text-decoration:none;"><i class="fas fa-heartbeat"></i> LifeLink</a></span>
+            </div>
+
+            <nav class="nav-center">
+                <a href="lifelink-blood-tracker.html">Home</a>
+                <a href="#">About Us</a>
+                <div class="dropdown">
+                    <button class="dropbtn">Awareness</button>
+                    <div class="dropdown-content">
+                        <a href="#">Blog</a>
+                        <a href="#">News</a>
+                        <a href="#">Events</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">More</button>
+                    <div class="dropdown-content">
+                        <a href="blood-bank-request.html">Receive Blood (Blood Bank)</a>
+                        <a href="lifelink-blood-tracker.html#find-donor-page">Receive Blood (DBIT Community)</a>
+                        <a href="#">Contact Us</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+
+        <div class="nav-right">
+            <button class="btn-outline" id="open-signin-btn">Sign In</button>
+            <button class="btn-filled" id="open-register-btn">Register</button>
+        </div>
+    </header>
+    <!-- NAVBAR END -->
+
+    <main>
+        <section class="search-section">
+            <div class="heading-intro-wrapper">
+                <h2>Search Blood Banks for Availability</h2>
+                <p class="intro-text">
+                    Find nearby blood banks that may have the blood type you need. Enter your requirements below to get a
+                    list
+                    of potential options. Please note that availability changes rapidly.
+                </p>
+            </div>
+
+            <form id="blood-search-form" class="search-form">
+                <div class="form-group">
+                    <label for="search-blood-group">Blood Group Needed<span class="required-star">*</span></label>
+                    <select id="search-blood-group" name="blood-group" required>
+                        <option value="" disabled selected>Select Blood Group</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="search-location">Your Location<span class="required-star">*</span></label>
+                    <input type="text" id="search-location" name="location" placeholder="e.g., Kurla, Mumbai" required>
+                </div>
+                <div class="form-group">
+                    <label for="search-blood-type">Type of Blood Component Needed</label>
+                    <select id="search-blood-type" name="blood-component">
+                        <option value="Whole Blood" selected>Whole Blood</option>
+                        <option value="Platelets">Platelets</option>
+                        <option value="Plasma">Plasma</option>
+                        <option value="Red Blood Cells">Red Blood Cells</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="auth-button">Search Blood Banks</button>
+            </form>
+        </section>
+
+        <section class="blood-bank-results-section" id="blood-bank-search-results" style="display: none;">
+            <h3>Available Blood Banks Near You</h3>
+            <div class="disclaimer">
+                <i class="fas fa-exclamation-triangle"></i> Disclaimer: The availability shown below is for
+                informational
+                purposes only and may not be up-to-date. Please contact the blood bank directly to confirm current
+                stock.
+            </div>
+            <div class="blood-bank-table-container">
+                <table class="blood-bank-table">
+                    <thead>
+                        <tr>
+                            <th>S.No.</th>
+                            <th data-sort-key="name">Name <i class="fas fa-sort sort-indicator"></i></th>
+                            <th data-sort-key="address">Address <i class="fas fa-sort sort-indicator"></i></th>
+                            <th>Availability</th>
+                            <th>Contact No.</th>
+                            <th>Email Address</th>
+                        </tr>
+                    </thead>
+                    <tbody id="blood-bank-table-body">
+                        <!-- Search results will be inserted here by JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="tips-section">
+            <h3>Important Tips for Your Search</h3>
+            <ul>
+                <li><i class="fas fa-phone-alt"></i> Always call the blood bank directly before visiting to confirm the
+                    availability of your specific blood group and component.</li>
+                <li><i class="fas fa-map-marker-alt"></i> Note down the full address and any specific landmarks for
+                    easier
+                    navigation, especially during emergencies.</li>
+                <li><i class="fas fa-clock"></i> Inquire about their operating hours and any specific requirements for
+                    blood
+                    collection or issuance.</li>
+                <li><i class="fas fa-file-alt"></i> Be prepared to provide patient details and any necessary medical
+                    prescriptions or referral letters.</li>
+                <li><i class="fas fa-handshake"></i> Thank the staff and volunteers for their invaluable service.</li>
+            </ul>
+            <p class="closing-text">Your prompt action can make a life-saving difference. Stay calm and follow these
+                steps.</p>
+        </section>
+    </main>
+
+    <!-- This footer will be used by both pages -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="logo"><a href="lifelink-blood-tracker.html"
+                        style="color:white; text-decoration:none;"><i class="fas fa-heartbeat"></i> LifeLink</a></span>
+                <p>Empowering the DBIT community to save lives through real-time, verified blood donation management. A
+                    project by NSS volunteers.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="lifelink-blood-tracker.html">Home</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Privacy Policy</a></li>
+                    <li><a href="#">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Get in Touch</h3>
+                <ul>
+                    <li>
+                        <p>Don Bosco Institute of Technology</p>
+                    </li>
+                    <li>
+                        <p>Kurla (West), Mumbai - 400 070</p>
+                    </li>
+                    <li>
+                        <p>Email: lifelink@dbit.in</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 LifeLink. All rights reserved.</p>
+            <p>Made with <i class="fas fa-heart" style="color: #e74c3c;"></i> by NSS DBIT.</p>
+        </div>
+    </footer>
+
+    <!-- 🟡 Sign In Modal -->
+    <div id="signin-modal" class="auth-modal">
+        <div class="auth-box">
+            <span class="close-btn" id="close-signin-btn">&times;</span>
+            <div class="logo-area">
+                <span class="logo"><i class="fas fa-heartbeat"></i> LifeLink</span>
+            </div>
+            <h2>Sign In to Your Account</h2>
+            <form id="signin-form">
+                <div class="form-group">
+                    <label for="signin-email">Email Address<span class="required-star">*</span></label>
+                    <input type="email" id="signin-email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signin-password">Password<span class="required-star">*</span></label>
+                    <input type="password" id="signin-password" name="password" placeholder="Enter your password"
+                        required>
+                </div>
+                <p class="auth-link" style="margin-top: 15px; margin-bottom: 20px;"><a id="forgot-password-link">Forgot
+                        Password?</a></p>
+                <button type="submit" class="auth-button">Sign In</button>
+            </form>
+            <p class="auth-link">Don't have an account? <a id="switch-to-register">Register here</a></p>
+        </div>
+    </div>
+
+    <!-- 🟡 Register Modal -->
+    <div id="register-modal" class="auth-modal">
+        <div class="auth-box">
+            <span class="close-btn" id="close-register-btn">&times;</span>
+            <div class="logo-area">
+                <span class="logo"><i class="fas fa-heartbeat"></i> LifeLink</span>
+            </div>
+            <h2>Create a New Account</h2>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="name">Full Name<span class="required-star">*</span></label>
+                    <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="student-id">Student ID<span class="required-star">*</span></label>
+                    <input type="text" id="student-id" name="student-id" pattern="[0-9]{10}"
+                        placeholder="Enter 10-digit student ID" required>
+                </div>
+                <div class="form-group">
+                    <label for="branch">Branch<span class="required-star">*</span></label>
+                    <select id="branch" name="branch" required>
+                        <option value="" disabled selected>Select your branch</option>
+                        <option value="COMPS">COMPS</option>
+                        <option value="IT">IT</option>
+                        <option value="EXTC">EXTC</option>
+                        <option value="MECH">MECH</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email Address<span class="required-star">*</span></label>
+                    <input type="email" id="register-email" name="email" placeholder="Enter your college email" required>
+                </div>
+                <div class="form-group">
+                    <label for="blood-group">Blood Group<span class="required-star">*</span></label>
+                    <select id="blood-group" name="blood-group" required>
+                        <option value="unknown" selected>Don't Know</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" name="dob">
+                </div>
+                <div class="form-group">
+                    <label for="weight">Weight (in kg)</label>
+                    <input type="number" id="weight" name="weight" placeholder="Enter your weight">
+                </div>
+                <div class="form-group">
+                    <label for="mobile">Mobile Number<span class="required-star">*</span></label>
+                    <input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}"
+                        placeholder="Enter 10-digit mobile number" required>
+                </div>
+                <div class="form-group">
+                    <label for="last-donated">Last Donated (optional)</label>
+                    <input type="date" id="last-donated" name="last-donated">
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password<span class="required-star">*</span></label>
+                    <input type="password" id="register-password" name="password" placeholder="Create a password"
+                        required>
+                </div>
+                <div class="form-group consent-group">
+                    <label class="consent-label">
+                        <input type="checkbox" id="consent" required>
+                        I consent to my data being used for blood donation purposes.
+                    </label>
+                </div>
+                <button type="submit" class="auth-button">Register</button>
+            </form>
+            <p class="auth-link">Already have an account? <a id="switch-to-signin">Sign In here</a></p>
+        </div>
+    </div>
+
+    <!-- 🟡 NEW: Forgot Password Modal -->
+    <div id="forgot-password-modal" class="auth-modal">
+        <div class="auth-box">
+            <span class="close-btn" id="close-forgot-password-btn">&times;</span>
+            <div class="logo-area">
+                <span class="logo"><i class="fas fa-heartbeat"></i> LifeLink</span>
+            </div>
+            <h2>Reset Your Password</h2>
+            <form id="forgot-password-form">
+                <div id="forgot-password-step-1">
+                    <div class="form-group">
+                        <label for="forgot-email-phone">Email Address or Phone Number<span
+                                class="required-star">*</span></label>
+                        <input type="text" id="forgot-email-phone" name="email-phone"
+                            placeholder="Enter your email or 10-digit phone number" required>
+                    </div>
+                    <button type="button" class="auth-button" id="request-otp-btn">Request OTP</button>
+                </div>
+
+                <div id="forgot-password-step-2" style="display: none;">
+                    <p class="auth-link" style="margin-bottom: 20px;">An OTP has been sent to your provided contact.</p>
+                    <div class="form-group">
+                        <label for="otp">OTP<span class="required-star">*</span></label>
+                        <input type="text" id="otp" name="otp" pattern="[0-9]{6}" placeholder="Enter 6-digit OTP"
+                            required>
+                    </div>
+                    <button type="button" class="auth-button" id="verify-otp-btn">Verify OTP</button>
+                    <p class="auth-link" style="margin-top: 15px;"><a href="#" id="resend-otp-link">Resend OTP</a></p>
+                </div>
+
+                <div id="forgot-password-step-3" style="display: none;">
+                    <div class="form-group">
+                        <label for="new-password">New Password<span class="required-star">*</span></label>
+                        <input type="password" id="new-password" name="new-password" placeholder="Enter new password"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-new-password">Confirm New Password<span class="required-star">*</span></label>
+                        <input type="password" id="confirm-new-password" name="confirm-new-password"
+                            placeholder="Confirm new password" required>
+                    </div>
+                    <button type="submit" class="auth-button">Reset Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- JavaScript for Modals and auto-fill logic -->
+    <script>
+        // --- All Modal Logic ---
+        const signInModal = document.getElementById('signin-modal');
+        const registerModal = document.getElementById('register-modal');
+        const forgotPasswordModal = document.getElementById('forgot-password-modal');
+
+        const openSignInBtn = document.getElementById('open-signin-btn');
+        const openRegisterBtn = document.getElementById('open-register-btn');
+
+        const closeSignInBtn = document.getElementById('close-signin-btn');
+        const closeRegisterBtn = document.getElementById('close-register-btn');
+        const closeForgotPasswordBtn = document.getElementById('close-forgot-password-btn');
+
+        const switchToRegisterLink = document.getElementById('switch-to-register');
+        const switchToSignInLink = document.getElementById('switch-to-signin');
+        const forgotPasswordLink = document.getElementById('forgot-password-link');
+
+        // Forgot Password Form Elements
+        const forgotPasswordForm = document.getElementById('forgot-password-form');
+        const forgotPasswordStep1 = document.getElementById('forgot-password-step-1');
+        const forgotPasswordStep2 = document.getElementById('forgot-password-step-2');
+        const forgotPasswordStep3 = document.getElementById('forgot-password-step-3');
+        const requestOtpBtn = document.getElementById('request-otp-btn');
+        const verifyOtpBtn = document.getElementById('verify-otp-btn');
+        const resendOtpLink = document.getElementById('resend-otp-link');
+        const newPasswordInput = document.getElementById('new-password');
+        const confirmNewPasswordInput = document.getElementById('confirm-new-password');
+
+
+        // Open Modals
+        openSignInBtn.onclick = () => signInModal.classList.add('show');
+        openRegisterBtn.onclick = () => registerModal.classList.add('show');
+
+        // Close Modals
+        closeSignInBtn.onclick = () => signInModal.classList.remove('show');
+        closeRegisterBtn.onclick = () => registerModal.classList.remove('show');
+        closeForgotPasswordBtn.onclick = () => {
+            forgotPasswordModal.classList.remove('show');
+            // Reset forgot password modal to step 1 when closed
+            forgotPasswordStep1.style.display = 'block';
+            forgotPasswordStep2.style.display = 'none';
+            forgotPasswordStep3.style.display = 'none';
+        };
+
+        // Switch between Auth Modals from links
+        switchToRegisterLink.onclick = () => {
+            signInModal.classList.remove('show');
+            registerModal.classList.add('show');
+        };
+        switchToSignInLink.onclick = () => {
+            registerModal.classList.remove('show');
+            signInModal.classList.add('show');
+        };
+
+        // New: Open Forgot Password Modal from Sign In Modal
+        forgotPasswordLink.onclick = (e) => {
+            e.preventDefault();
+            signInModal.classList.remove('show');
+            forgotPasswordModal.classList.add('show');
+        };
+
+
+        // Window click to close any open modal
+        window.onclick = (event) => {
+            if (event.target == signInModal) signInModal.classList.remove('show');
+            if (event.target == registerModal) registerModal.classList.remove('show');
+            if (event.target == forgotPasswordModal) {
+                forgotPasswordModal.classList.remove('show');
+                // Reset forgot password modal to step 1 when closed
+                forgotPasswordStep1.style.display = 'block';
+                forgotPasswordStep2.style.display = 'none';
+                forgotPasswordStep3.style.display = 'none';
+            }
+
+            // Close dropdowns
+            if (!event.target.matches('.dropbtn')) {
+                document.querySelectorAll('.dropdown-content.show').forEach(openDropdown => {
+                    openDropdown.classList.remove('show');
+                });
+            }
+        };
+
+        // --- Click-based Dropdown Logic ---
+        document.querySelectorAll('.dropbtn').forEach(button => {
+            button.addEventListener('click', function (event) {
+                event.stopPropagation();
+                const currentDropdownContent = this.nextElementSibling;
+
+                document.querySelectorAll('.dropdown-content.show').forEach(openDropdown => {
+                    if (openDropdown !== currentDropdownContent) {
+                        openDropdown.classList.remove('show');
+                    }
+                });
+
+                currentDropdownContent.classList.toggle('show');
+            });
+        });
+
+        // --- NEW: Forgot Password Steps Logic ---
+        requestOtpBtn.addEventListener('click', () => {
+            const emailPhoneInput = document.getElementById('forgot-email-phone');
+            if (emailPhoneInput.checkValidity()) {
+                forgotPasswordStep1.style.display = 'none';
+                forgotPasswordStep2.style.display = 'block';
+                // In a real application, you'd send an OTP here.
+                console.log(`OTP requested for: ${emailPhoneInput.value}`);
+            } else {
+                emailPhoneInput.reportValidity();
+            }
+        });
+
+        verifyOtpBtn.addEventListener('click', () => {
+            const otpInput = document.getElementById('otp');
+            // For demonstration, let's assume any 6-digit OTP is "valid"
+            if (otpInput.checkValidity() && otpInput.value === "123456") { // Example OTP
+                forgotPasswordStep2.style.display = 'none';
+                forgotPasswordStep3.style.display = 'block';
+                console.log(`OTP verified!`);
+            } else {
+                otpInput.reportValidity();
+                console.error('Invalid OTP. Please try again.');
+            }
+        });
+
+        forgotPasswordForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent default form submission
+
+            const newPassword = newPasswordInput.value;
+            const confirmNewPassword = confirmNewPasswordInput.value;
+
+            if (newPassword === confirmNewPassword) {
+                if (newPassword.length >= 6) { // Basic password length validation
+                    console.log('Password reset successfully!');
+                    // In a real application, you'd send the new password to your backend
+                    forgotPasswordModal.classList.remove('show'); // Close modal on success
+                    console.log('Your password has been reset successfully! Please sign in with your new password.'); // Placeholder success message
+                    // Reset form fields
+                    forgotPasswordForm.reset();
+                    // Reset modal to step 1
+                    forgotPasswordStep1.style.display = 'block';
+                    forgotPasswordStep2.style.display = 'none';
+                    forgotPasswordStep3.style.display = 'none';
+                } else {
+                    console.error('Password must be at least 6 characters long.');
+                }
+            } else {
+                console.error('New passwords do not match. Please try again.');
+            }
+        });
+
+
+        resendOtpLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            const emailPhoneValue = document.getElementById('forgot-email-phone').value;
+            console.log(`Resending OTP to: ${emailPhoneValue}`);
+            // In a real application, you'd re-send an OTP here.
+            console.log('OTP has been re-sent!');
+        });
+
+
+        // --- Blood Bank Search Logic ---
+        const bloodSearchForm = document.getElementById('blood-search-form');
+        const bloodBankSearchResultsSection = document.getElementById('blood-bank-search-results');
+        const bloodBankTableBody = document.getElementById('blood-bank-table-body');
+        const tableHeaders = document.querySelectorAll('.blood-bank-table th[data-sort-key]');
+
+        let currentSort = {
+            key: null,
+            direction: 'asc'
+        };
+
+        // New function to convert string to Title Case
+        function toTitleCase(str) {
+            return str.replace(/\w\S*/g, function(txt) {
+                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            });
+        }
+
+        // Add event listener to format location input on blur
+        document.getElementById('search-location').addEventListener('blur', function() {
+            this.value = toTitleCase(this.value);
+        });
+
+        // Sample data for blood banks (for demonstration)
+        const sampleBloodBanks = [
+            {
+                name: "Sant Nirankari Blood Centre",
+                address: "3rd Floor Sant Nirankari Satsang Bhawan, Western Express Highway, Hanuman Road, Vile Parle East, Vile Parle, Mumbai Suburban, Maharashtra",
+                availability: { "A+": true, "O-": false, "Platelets": true, "Whole Blood": true, "Plasma": false, "Red Blood Cells": true },
+                contact: "tel:9969983340",
+                phone: "9969983340",
+                email: "santnirankaribb@gmail.com"
+            },
+            {
+                name: "Rotary D.G Goenka Blood Centre( Municipal Gen. Hospital)",
+                address: "2nd floor, Opp Bus Depot, Near Railway Station Andheri (W),, Mumbai Suburban, Mumbai Suburban, Maharashtra",
+                availability: { "B+": true, "AB+": true, "Platelets": false, "Whole Blood": true, "Plasma": true, "Red Blood Cells": true },
+                contact: "tel:9004437823",
+                phone: "9004437823",
+                email: "bloodbank@ghrc-bk.org"
+            },
+            {
+                name: "JJ Hospital Blood Bank",
+                address: "Byculla, Mumbai - 400008",
+                availability: { "A+": true, "O-": false, "Platelets": false, "Whole Blood": true, "Plasma": false, "Red Blood Cells": true },
+                contact: "tel:02223735555",
+                phone: "02223735555",
+                email: "jjhospital@example.com" // Placeholder email
+            },
+            {
+                name: "Tata Memorial Centre Blood Bank",
+                address: "Parel, Mumbai - 400012",
+                availability: { "B+": true, "AB+": true, "Platelets": true, "Whole Blood": false, "Plasma": true, "Red Blood Cells": true },
+                contact: "tel:02224177000",
+                phone: "02224177000",
+                email: "tatamemorial@example.com" // Placeholder email
+            },
+            {
+                name: "Red Cross Blood Bank",
+                address: "Colaba, Mumbai - 400005",
+                availability: { "O+": true, "A-": false, "Whole Blood": true, "Platelets": false, "Plasma": false, "Red Blood Cells": true },
+                contact: "tel:02222026888",
+                phone: "02222026888",
+                email: "redcross@example.com" // Placeholder email
+            },
+            {
+                name: "Holy Family Hospital Blood Bank",
+                address: "Bandra, Mumbai - 400050",
+                availability: { "A+": true, "B-": false, "Whole Blood": true, "Plasma": true, "Platelets": true, "Red Blood Cells": true },
+                contact: "tel:02226422731",
+                phone: "02226422731",
+                email: "holyfamily@example.com" // Placeholder email
+            },
+            {
+                name: "KEM Hospital Blood Bank",
+                address: "Parel, Mumbai - 400012",
+                availability: { "O+": true, "A+": true, "B+": true, "AB+": true, "Platelets": false, "Whole Blood": true, "Plasma": true, "Red Blood Cells": true },
+                contact: "tel:02224107000",
+                phone: "02224107000",
+                email: "kemhospital@example.com" // Placeholder email
+            },
+            {
+                name: "Sion Hospital Blood Bank",
+                address: "Sion, Mumbai - 400022",
+                availability: { "A-": false, "O-": true, "Plasma": true, "Whole Blood": false, "Platelets": true, "Red Blood Cells": false },
+                contact: "tel:02224076381",
+                phone: "02224076381",
+                email: "sionhospital@example.com" // Placeholder email
+            },
+             {
+                name: "Bombay Hospital Blood Bank",
+                address: "New Marine Lines, Mumbai - 400020",
+                availability: { "A+": false, "B+": false, "AB+": false, "O+": false, "Platelets": false, "Whole Blood": false, "Plasma": false, "Red Blood Cells": false },
+                contact: "tel:02222001000",
+                phone: "02222001000",
+                email: "bombayhospital@example.com"
+            },
+            {
+                name: "Lilavati Hospital Blood Bank",
+                address: "Bandra Reclamation, Mumbai - 400050",
+                availability: { "A-": false, "B-": false, "Whole Blood": false, "Plasma": true, "Red Blood Cells": false },
+                contact: "tel:02226568000",
+                phone: "02226568000",
+                email: "lilavatihospital@example.com"
+            }
+        ];
+
+        let currentFilteredBanks = []; // To store the currently displayed filtered banks for sorting
+
+        bloodSearchForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const bloodGroup = document.getElementById('search-blood-group').value;
+            const location = document.getElementById('search-location').value; // Currently unused for filtering sample data
+            const bloodComponent = document.getElementById('search-blood-type').value;
+
+            currentFilteredBanks = sampleBloodBanks.filter(bank => {
+                const isBloodGroupAvailable = bank.availability[bloodGroup] === true;
+                const isBloodComponentAvailable = bank.availability[bloodComponent] === true;
+                return isBloodGroupAvailable || isBloodComponentAvailable;
+            });
+
+            // If no banks match, include some 'Not Available' ones to show the functionality
+            if (currentFilteredBanks.length === 0) {
+                 const allOtherBanks = sampleBloodBanks.filter(bank => {
+                    const isBloodGroupAvailable = bank.availability[bloodGroup] === true;
+                    const isBloodComponentAvailable = bank.availability[bloodComponent] === true;
+                    return !(isBloodGroupAvailable || isBloodComponentAvailable); // Select banks that DO NOT match
+                 }).slice(0, 3); // Take up to 3 non-matching banks
+                 currentFilteredBanks = currentFilteredBanks.concat(allOtherBanks);
+            }
+
+
+            // Reset sort when new search is performed
+            currentSort = {
+                key: null,
+                direction: 'asc'
+            };
+            updateSortIndicators();
+
+            displayBloodBankResults(currentFilteredBanks, bloodGroup, bloodComponent);
+            bloodBankSearchResultsSection.style.display = 'block';
+            bloodBankSearchResultsSection.scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+
+        function displayBloodBankResults(banks, requestedBloodGroup, requestedBloodComponent) {
+            bloodBankTableBody.innerHTML = ''; // Clear previous results
+
+            if (banks.length === 0) {
+                bloodBankTableBody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 20px;">No blood banks found matching your criteria.</td></tr>`;
+                return;
+            }
+
+            banks.forEach((bank, index) => {
+                const row = bloodBankTableBody.insertRow();
+                row.insertCell(0).textContent = index + 1;
+
+                const nameCell = row.insertCell(1);
+                nameCell.textContent = bank.name;
+
+                const addressCell = row.insertCell(2);
+                addressCell.textContent = bank.address;
+
+                const availabilityCell = row.insertCell(3);
+                const isBloodGroupAvailable = bank.availability[requestedBloodGroup] === true;
+                const isBloodComponentAvailable = bank.availability[requestedBloodComponent] === true;
+
+                const isAvailableForRequest = isBloodGroupAvailable || isBloodComponentAvailable;
+
+                availabilityCell.textContent = isAvailableForRequest ? "Available" : "Not Available";
+
+                if (isAvailableForRequest) {
+                    row.classList.add('available-row');
+                } else {
+                    row.classList.add('not-available-row');
+                }
+
+                row.insertCell(4).textContent = bank.phone || 'N/A'; // Contact No.
+                row.insertCell(5).textContent = bank.email || 'N/A'; // Email Address
+            });
+        }
+
+        // Sorting Logic
+        tableHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const sortKey = header.dataset.sortKey;
+
+                if (currentSort.key === sortKey) {
+                    currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                } else {
+                    currentSort.key = sortKey;
+                    currentSort.direction = 'asc';
+                }
+
+                sortBloodBanks(currentFilteredBanks, currentSort.key, currentSort.direction);
+                updateSortIndicators();
+                // Re-display results with current search parameters to maintain availability context
+                const bloodGroup = document.getElementById('search-blood-group').value;
+                const bloodComponent = document.getElementById('search-blood-type').value;
+                displayBloodBankResults(currentFilteredBanks, bloodGroup, bloodComponent);
+            });
+        });
+
+        function sortBloodBanks(banks, key, direction) {
+            banks.sort((a, b) => {
+                const valA = a[key].toLowerCase();
+                const valB = b[key].toLowerCase();
+
+                if (valA < valB) return direction === 'asc' ? -1 : 1;
+                if (valA > valB) return direction === 'asc' ? 1 : -1;
+                return 0;
+            });
+        }
+
+        function updateSortIndicators() {
+            tableHeaders.forEach(header => {
+                header.classList.remove('sorted-asc', 'sorted-desc');
+                const indicator = header.querySelector('.sort-indicator');
+                if (indicator) {
+                    indicator.classList.remove('fa-sort-up', 'fa-sort-down');
+                    indicator.classList.add('fa-sort');
+                }
+
+                if (header.dataset.sortKey === currentSort.key) {
+                    header.classList.add(`sorted-${currentSort.direction}`);
+                    if (indicator) {
+                        indicator.classList.remove('fa-sort');
+                        indicator.classList.add(currentSort.direction === 'asc' ? 'fa-sort-up' : 'fa-sort-down');
+                    }
+                }
+            });
+        }
+
+        // Ensure the logo link on this page points back to the home page
+        document.querySelector('.navbar .logo a').href = 'lifelink-blood-tracker.html';
+        document.querySelector('.footer .logo a').href = 'lifelink-blood-tracker.html';
+    </script>
+</body>
+
+</html>
