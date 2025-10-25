@@ -308,6 +308,51 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
 
+        /* Profile button (circular initial) */
+.profile-btn {
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  border:none;
+  background:#ff5a5a; /* change as needed */
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+}
+
+/* Dropdown container */
+.profile-menu {
+  position:relative;
+  display:inline-block;
+}
+
+.profile-dropdown {
+  position:absolute;
+  right:0;
+  top:48px;
+  min-width:200px;
+  background:#fff;
+  border:1px solid rgba(0,0,0,0.08);
+  box-shadow:0 8px 24px rgba(0,0,0,0.08);
+  border-radius:8px;
+  z-index:9999;
+  padding:8px;
+}
+
+.profile-info { padding:8px 12px; border-bottom:1px solid #eee; }
+.profile-name { font-weight:600; }
+.profile-email { font-size:0.85rem; color:#666; }
+
+.profile-dropdown ul { list-style:none; margin:8px 0 0; padding:0; }
+.profile-dropdown ul li { padding:6px 8px; }
+.profile-dropdown ul li a { color:#222; text-decoration:none; display:block; }
+.profile-dropdown ul li a:hover { background:#f6f6f6; border-radius:6px; }
+
+
         /* 🟢 HERO SECTION WITH SLIDER */
         .hero {
             position: relative;

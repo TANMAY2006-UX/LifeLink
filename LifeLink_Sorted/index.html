@@ -42,10 +42,33 @@
                 </div>
             </nav>
         </div>
-        <div class="nav-right">
-            <button class="btn-outline" id="open-signin-btn">Sign In</button>
-            <button class="btn-filled" id="open-register-btn">Register</button>
-        </div>
+<div class="nav-right">
+  <button id="loginBtn" class="btn action">Sign In</button>
+  <button id="registerBtn" class="btn action">Register</button>
+
+  <!-- Profile menu (hidden by default) -->
+  <div id="profileMenu" class="profile-menu" style="display:none;">
+    <button id="profileBtn" class="profile-btn" aria-haspopup="true" aria-expanded="false">
+      <span id="profileInitial">U</span>
+    </button>
+
+    <div id="profileDropdown" class="profile-dropdown" role="menu" style="display:none;">
+      <div class="profile-info">
+        <div id="profileName" class="profile-name">User Name</div>
+        <div id="profileEmail" class="profile-email">email@example.com</div>
+      </div>
+      <hr />
+      <ul>
+        <li><a id="profileLink" href="/LifeLink_Sorted/pages/profile.html">Profile</a></li>
+        <li><a id="myDonationsLink" href="/LifeLink_Sorted/pages/donations.html">My Donations</a></li>
+        <li><a id="logoutBtn" href="#">Logout</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+
     </header>
     <!-- NAVBAR END -->
 
@@ -137,7 +160,7 @@
         <div class="cta-container">
             <h2 class="cta-title">Join Our Cause</h2>
             <div class="cta-wrapper">
-                <a href="/LifeLink_Sorted/donate.html" id="open-donate-cta" class="cta-button-large">
+                <a href="#" id="open-donate-cta" class="cta-button-large">
                     <i class="fas fa-heartbeat"></i>
                     <span>Donate Blood</span>
                 </a>
