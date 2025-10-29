@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+
+/* Ensure no extra padding is added to the body since the main CSS/HTML handles the navbar offset */
+body {
+    padding-top: 0;
+    background-color: #FFF8F8; /* Soft background color matching the image */
+}
+
+#map {
+    height: 500px;
+    width: 100%;
+    border-radius: 1rem;
+    border: 1px solid #ddd;
+    z-index: 1;
+}
+
+.animate-pulse {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: .5;
+    }
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.donor-list-modal-content {
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    text-align: left;
+}
+
+.donor-card {
+    transition: all 0.3s ease;
+}
+.donor-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+.search-container {
+    position: relative;
+    z-index: 999;
+}
+.map-container {
+    position: relative;
+    z-index: 1;
+}
+.floating-controls {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+.distance-badge {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+/* Custom Heading Style */
+#find-donors h1, #find-donors h2 {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 15px; /* Space for the underline */
+    margin-bottom: 1rem;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #880808;
+    letter-spacing: normal;
+}
+
+#find-donors h1::after, #find-donors h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 150px;
+    height: 5px;
+    background-color: #c0392b;
+    border-radius: 2px;
+}
+
+/* Custom Leaflet Marker Icons */
+.leaflet-marker-icon.custom-donor-marker,
+.leaflet-marker-icon.custom-user-marker {
+    background: none;
+    border: none;
+}
+.leaflet-marker-icon.custom-donor-marker div,
+.leaflet-marker-icon.custom-user-marker div {
+    transform: translate(-50%, -50%);
+}

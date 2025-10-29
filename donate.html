@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLink Blood Tracker - Donate Blood</title>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <!-- Link to the consolidated, site-wide stylesheet -->
+    <link rel="stylesheet" href="/styles/styles.css">
+    <!-- Link to this page's specific stylesheet -->
+
+</head>
+
+<body>
+    <!-- 🔴 NAVBAR START -->
+    <header class="navbar" id="main-navbar">
+        <div class="nav-primary">
+            <div class="nav-left">
+                <span class="logo"><a href="index.html" style="color:white; text-decoration:none;"><i
+                            class="fas fa-heartbeat"></i> LifeLink</a></span>
+            </div>
+            <nav class="nav-center">
+                <a href="index.html#hero-section" class="nav-link" data-target="hero-section">Home</a>
+                <a href="/pages/about.html" class="nav-link">About Us</a>
+                <div class="dropdown">
+                    <button class="dropbtn">Awareness</button>
+                    <div class="dropdown-content">
+                        <a href="/pages/videos.html" class="nav-link">Videos</a>
+                        <a href="/pages/news.html" class="nav-link">News</a>
+                        <a href="/pages/events.html" class="nav-link">Events</a>
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <button class="dropbtn">More</button>
+                    <div class="dropdown-content">
+                        <a href="/blood_bank.html" class="nav-link">Receive Blood</a>
+                        <a href="/find_donor.html" class="nav-link">Find Donor</a>
+                        <a href="/pages/contact.html" class="nav-link">Contact Us</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="nav-right">
+            <button id="loginBtn" class="btn action">Sign In</button>
+            <button id="registerBtn" class="btn action">Register</button>
+        </div>
+    </header>
+    <!-- NAVBAR END -->
+
+    <!-- 🟢 NEW: Donation Booking Page (Full Page Replacement) -->
+    <section id="donation-page" class="donation-page">
+        <div class="donation-page-header">
+            <h1>Your Generosity, Our Lifeline.</h1>
+            <p>Thank you for stepping forward to save lives. Please confirm your details and select your preferred
+                donation slot below to finalize your commitment.</p>
+        </div>
+
+        <!-- NEW: Step-by-step forms container -->
+        <div class="donation-steps-container">
+
+            <!-- Step 1: User Information -->
+            <div id="step-1" class="donation-step-card">
+                <h2 class="section-title"><i class="fas fa-user-circle"></i> 1. Your Information</h2>
+                <form id="donation-info-form">
+                    <p class="text-sm text-gray-600 mb-4">These details are pre-filled from your profile. You can edit
+                        them if needed.</p>
+                    <div class="form-group">
+                        <label for="book-name-main">Full Name</label>
+                        <input type="text" id="book-name-main" name="name" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="book-student-id-main">Student ID</label>
+                        <input type="text" id="book-student-id-main" name="studentId" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="book-branch-main">Branch</label>
+                        <select id="book-branch-main" name="branch" disabled>
+                            <option value="COMPS">COMPS</option>
+                            <option value="IT">IT</option>
+                            <option value="EXTC">EXTC</option>
+                            <option value="MECH">MECH</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="book-email-main">Email Address</label>
+                        <input type="email" id="book-email-main" name="email" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="book-blood-group-main">Blood Group</label>
+                        <input type="text" id="book-blood-group-main" name="bloodGroup" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="book-mobile-main">Mobile Number</label>
+                        <input type="tel" id="book-mobile-main" name="mobile" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="book-pincode-main">Pin Code</label>
+                        <input type="text" id="book-pincode-main" name="pincode" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="book-last-donated">Last Donated</label>
+                        <input type="date" id="book-last-donated" name="lastDonated" readonly>
+                    </div>
+                </form>
+                <div class="action-buttons">
+                    <button type="button" class="btn-premium btn-edit-info" id="edit-info-btn">Edit</button>
+                    <button type="button" class="btn-premium btn-next" id="next-to-appointment-btn">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Appointment Selection -->
+            <div id="step-2" class="donation-step-card hidden">
+                <h2 class="section-title"><i class="fas fa-calendar-alt"></i> 2. Select Your Appointment</h2>
+                <form id="donation-appointment-form">
+                    <div class="form-group">
+                        <label for="donation-date-main">Donation Date</label>
+                        <input type="text" id="donation-date-main" name="donationDate" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="time-slot-main">Preferred Time Slot<span class="required-star">*</span></label>
+                        <select id="time-slot-main" name="timeSlot" required>
+                            <option value="" disabled selected>Select a time slot</option>
+                            <option value="09:00-10:00">09:00 AM - 10:00 AM</option>
+                            <option value="10:00-11:00">10:00 AM - 11:00 AM</option>
+                            <option value="11:00-12:00">11:00 AM - 12:00 PM</option>
+                            <option value="12:00-13:00">12:00 PM - 01:00 PM</option>
+                            <option value="13:00-14:00">01:00 PM - 02:00 PM</option>
+                            <option value="14:00-15:00">02:00 PM - 03:00 PM</option>
+                            <option value="15:00-16:00">03:00 PM - 04:00 PM</option>
+                        </select>
+                    </div>
+                    <div class="form-group consent-group">
+                        <label class="custom-checkbox-label">
+                            <input type="checkbox" id="donation-consent-main" required>
+                            <span>I confirm my commitment to donate blood.</span>
+                        </label>
+                    </div>
+                </form>
+                <div class="action-buttons">
+                    <button type="button" class="btn-premium btn-back" id="back-to-info-btn">Back</button>
+                    <button type="submit" form="donation-appointment-form" class="btn-premium btn-next"
+                        id="confirm-donation-btn">Confirm My Donation</button>
+                </div>
+            </div>
+
+        </div>
+        <!-- End of donation-steps-container -->
+
+        <!-- Donation Success Message - within the page -->
+        <div id="donation-success-message" class="donation-success hidden">
+            <i class="fas fa-check-circle icon-check"></i>
+            <h2>Thank You, Lifesaver!</h2>
+            <p>Your blood donation appointment has been successfully booked. Your contribution is invaluable and will
+                truly make a difference. You will receive a confirmation email shortly with all the details.</p>
+            <button class="back-home-btn" id="back-to-home-btn">Back to Home</button>
+        </div>
+    </section>
+    <!-- Donation Booking Page END -->
+
+    <!-- 🟢 FINAL CONFIRMATION SUMMARY MODAL -->
+    <div id="summary-modal" class="auth-modal summary-modal">
+        <div id="step-3" class="auth-box">
+            <span class="close-btn" id="close-summary-modal">&times;</span>
+            <h2 class="section-title"><i class="fas fa-clipboard-check"></i> Appointment Summary</h2>
+            <p>Please review your details. You're just one step away from becoming a lifesaver!</p>
+            <div class="summary-details">
+                <div class="summary-item">
+                    <label>Donor Name:</label>
+                    <span id="summary-name">N/A</span>
+                </div>
+                <div class="summary-item">
+                    <label>Blood Group:</label>
+                    <span id="summary-blood-group">N/A</span>
+                </div>
+                <div class="summary-item">
+                    <label>Mobile:</label>
+                    <span id="summary-mobile">N/A</span>
+                </div>
+                <div class="summary-item">
+                    <label>Donation Date:</label>
+                    <span id="summary-date">N/A</span>
+                </div>
+                <div class="summary-item">
+                    <label>Time Slot:</label>
+                    <span id="summary-time">N/A</span>
+                </div>
+            </div>
+            <div class="summary-buttons">
+                <button type="button" class="btn-premium btn-back" id="back-from-summary-btn">Back</button>
+                <button type="button" class="btn-premium confirm-booking-btn" id="final-confirm-btn">
+                    <i class="fas fa-check-circle"></i> Final Confirmation
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 🟢 FOOTER -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-brand">
+                <span class="logo"><a href="index.html" style="color:white; text-decoration:none;"><i
+                            class="fas fa-heartbeat"></i> LifeLink</a></span>
+                <p>Empowering the DBIT community to save lives through real-time, verified blood donation
+                    management. A project by NSS volunteers.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="/pages/faq.html">FAQ</a></li>
+                    <li><a href="/pages/privacy.html">Privacy Policy</a></li>
+                    <li><a href="/pages/terms.html">Terms of Service</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Get in Touch</h3>
+                <ul>
+                    <li>
+                        <p>Don Bosco Institute of Technology</p>
+                    </li>
+                    <li>
+                        <p>Kurla (West), Mumbai - 400 070</p>
+                    </li>
+                    <li>
+                        <p>Email: lifelink@dbit.in</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 LifeLink. All rights reserved.</p>
+            <p>Made with <i class="fas fa-heart" style="color: #e74c3c;"></i> by NSS DBIT.</p>
+        </div>
+    </footer>
+    <!-- FOOTER END -->
+
+    <!-- 🟡 Sign In Modal (from script.js) -->
+    <div id="signin-modal" class="auth-modal">
+        <div class="auth-box">
+            <span class="close-btn" id="close-signin-btn">&times;</span>
+            <div class="logo-area">
+                <span class="logo"><i class="fas fa-heartbeat"></i> LifeLink</span>
+            </div>
+            <h2>Sign In to Your Account</h2>
+            <form id="signin-form">
+                <div class="form-group">
+                    <label for="signin-email">Email Address<span class="required-star">*</span></label>
+                    <input type="email" id="signin-email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="signin-password">Password<span class="required-star">*</span></label>
+                    <input type="password" id="signin-password" name="password" placeholder="Enter your password"
+                        required>
+                </div>
+                <p class="auth-link" style="margin-top: 15px; margin-bottom: 20px;"><a id="forgot-password-link">Forgot
+                        Password?</a></p>
+                <button type="submit" class="auth-button">Sign In</button>
+            </form>
+            <p class="auth-link">Don't have an account? <a id="switch-to-register">Register here</a></p>
+        </div>
+    </div>
+
+    <!-- 🟡 Register Modal (from script.js) -->
+    <div id="register-modal" class="auth-modal">
+        <div class="auth-box">
+            <span class="close-btn" id="close-register-btn">&times;</span>
+            <div class="logo-area">
+                <span class="logo"><i class="fas fa-heartbeat"></i> LifeLink</span>
+            </div>
+            <h2>Create a New Account</h2>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="name">Full Name<span class="required-star">*</span></label>
+                    <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="student-id">Student ID<span class="required-star">*</span></label>
+                    <input type="text" id="student-id" name="student-id" pattern="[0-9]{10}"
+                        placeholder="Enter 10-digit student ID" required>
+                </div>
+                <div class="form-group">
+                    <label for="branch">Branch<span class="required-star">*</span></label>
+                    <select id="branch" name="branch" required>
+                        <option value="" disabled selected>Select your branch</option>
+                        <option value="COMPS">COMPS</option>
+                        <option value="IT">IT</option>
+                        <option value="EXTC">EXTC</option>
+                        <option value="MECH">MECH</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email Address<span class="required-star">*</span></label>
+                    <input type="email" id="register-email" name="email" placeholder="Enter your college email"
+                        required>
+                </div>
+                <div class="form-group">
+                    <label for="blood-group">Blood Group<span class="required-star">*</span></label>
+                    <select id="blood-group" name="blood-group" required>
+                        <option value="unknown" selected>Don't Know</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="dob">Date of Birth</label>
+                    <input type="date" id="dob" name="dob">
+                </div>
+                <div class="form-group">
+                    <label for="weight">Weight (in kg)</label>
+                    <input type="number" id="weight" name="weight" placeholder="Enter your weight">
+                </div>
+                <div class="form-group">
+                    <label for="mobile">Mobile Number<span class="required-star">*</span></label>
+                    <input type="tel" id="mobile" name="mobile" pattern="[0-9]{10}"
+                        placeholder="Enter 10-digit mobile number" required>
+                </div>
+                <div class="form-group">
+                    <label for="last-donated">Last Donated (optional)</label>
+                    <input type="date" id="last-donated" name="last-donated">
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Password<span class="required-star">*</span></label>
+                    <input type="password" id="register-password" name="password" placeholder="Create a password"
+                        required>
+                </div>
+                <div class="form-group consent-group">
+                    <label class="consent-label">
+                        <input type="checkbox" id="consent" required>
+                        I consent to my data being used for blood donation purposes.
+                    </label>
+                </div>
+                <button type="submit" class="auth-button">Register</button>
+            </form>
+            <p class="auth-link">Already have an account? <a id="switch-to-signin">Sign In here</a></p>
+        </div>
+    </div>
+
+    <!-- 🟡 Forgot Password Modal (from script.js) -->
+    <div id="forgot-password-modal" class="auth-modal">
+        <div class="auth-box">
+            <span class="close-btn" id="close-forgot-password-btn">&times;</span>
+            <div class="logo-area">
+                <span class="logo"><i class="fas fa-heartbeat"></i> LifeLink</span>
+            </div>
+            <h2>Reset Your Password</h2>
+            <form id="forgot-password-form">
+                <div id="forgot-password-step-1">
+                    <div class="form-group">
+                        <label for="forgot-email-phone">Email Address or Phone Number<span
+                                class="required-star">*</span></label>
+                        <input type="text" id="forgot-email-phone" name="email-phone"
+                            placeholder="Enter your email or 10-digit phone number" required>
+                    </div>
+                    <button type="button" class="auth-button" id="request-otp-btn">Request OTP</button>
+                </div>
+
+                <div id="forgot-password-step-2" style="display: none;">
+                    <p class="auth-link" style="margin-bottom: 20px;">An OTP has been sent to your provided contact.</p>
+                    <div class="form-group">
+                        <label for="otp">OTP<span class="required-star">*</span></label>
+                        <input type="text" id="otp" name="otp" pattern="[0-9]{6}" placeholder="Enter 6-digit OTP"
+                            required>
+                    </div>
+                    <button type="button" class="auth-button" id="verify-otp-btn">Verify OTP</button>
+                    <p class="auth-link" style="margin-top: 15px;"><a href="#" id="resend-otp-link">Resend OTP</a></p>
+                </div>
+
+                <div id="forgot-password-step-3" style="display: none;">
+                    <div class="form-group">
+                        <label for="new-password">New Password<span class="required-star">*</span></label>
+                        <input type="password" id="new-password" name="new-password" placeholder="Enter new password"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-new-password">Confirm New Password<span
+                                class="required-star">*</span></label>
+                        <input type="password" id="confirm-new-password" name="confirm-new-password"
+                            placeholder="Confirm new password" required>
+                    </div>
+                    <button type="submit" class="auth-button">Reset Password</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- 🟢 Message Box for generic messages (errors, success messages from sign-in/register) -->
+    <div id="message-box" class="auth-modal">
+        <div class="auth-box">
+            <span class="close-btn" id="close-message-box">&times;</span>
+            <h2 id="message-box-title"></h2>
+            <p id="message-box-text"></p>
+            <button class="auth-button" id="message-box-ok-btn">OK</button>
+        </div>
+    </div>
+
+
+    <script src="script/script.js"></script>
+    <script src="script/donate.js"></script>
+</body>
+
+</html>

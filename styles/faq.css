@@ -1,0 +1,128 @@
+/* This stylesheet contains styles specific to the faq.html page. */
+
+.page-header {
+    text-align: center;
+    padding: 60px 40px;
+    background: #fdf6f6;
+    color: #880808;
+    position: relative;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.page-header h1 {
+    font-size: 3.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 20px;
+    margin-bottom: 0;
+}
+
+.page-header h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 4px;
+    background-color: #880808;
+    border-radius: 2px;
+}
+
+.content-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 40px;
+}
+
+/* --- FAQs Section Styles --- */
+.faq-container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.faq-item {
+    background-color: #fff;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border-left: 5px solid #880808;
+    transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.faq-question {
+    padding: 20px 25px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.faq-question .faq-icon {
+    font-size: 1.2rem;
+    color: #880808;
+    transition: transform 0.3s ease;
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+    padding: 0 25px;
+}
+
+.faq-answer p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: #555;
+}
+
+.faq-item.active .faq-answer {
+    max-height: 500px;
+    /* Adjust as needed */
+    padding: 0 25px 20px 25px;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(45deg);
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .content-container {
+        padding: 30px 20px;
+    }
+
+    .faq-question {
+        font-size: 1rem;
+        padding: 15px 20px;
+    }
+
+    .faq-answer p {
+        font-size: 1rem;
+    }
+
+    .faq-answer p {
+        margin: 0;
+        /* <--- add this */
+        font-size: 1.2rem;
+        line-height: 1.8;
+        color: #555;
+    }
+
+
+    .faq-item.active .faq-answer {
+        padding: 0 20px 15px 20px;
+    }
+}
