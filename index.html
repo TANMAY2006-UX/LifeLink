@@ -42,30 +42,30 @@
                 </div>
             </nav>
         </div>
-<div class="nav-right">
-  <button id="loginBtn" class="btn action">Sign In</button>
-  <button id="registerBtn" class="btn action">Register</button>
+        <div class="nav-right">
+            <button id="loginBtn" class="btn action">Sign In</button>
+            <button id="registerBtn" class="btn action">Register</button>
 
-  <!-- Profile menu (hidden by default) -->
-  <div id="profileMenu" class="profile-menu" style="display:none;">
-    <button id="profileBtn" class="profile-btn" aria-haspopup="true" aria-expanded="false">
-      <span id="profileInitial">U</span>
-    </button>
+            <!-- Profile menu (hidden by default) -->
+            <div id="profileMenu" class="profile-menu" style="display:none;">
+                <button id="profileBtn" class="profile-btn" aria-haspopup="true" aria-expanded="false">
+                    <span id="profileInitial">U</span>
+                </button>
 
-    <div id="profileDropdown" class="profile-dropdown" role="menu" style="display:none;">
-      <div class="profile-info">
-        <div id="profileName" class="profile-name">User Name</div>
-        <div id="profileEmail" class="profile-email">email@example.com</div>
-      </div>
-      <hr />
-      <ul>
-        <li><a id="profileLink" href="/pages/profile.html">Profile</a></li>
-        <li><a id="myDonationsLink" href="/pages/donations.html">My Donations</a></li>
-        <li><a id="logoutBtn" href="#">Logout</a></li>
-      </ul>
-    </div>
-  </div>
-</div>
+                <div id="profileDropdown" class="profile-dropdown" role="menu" style="display:none;">
+                    <div class="profile-info">
+                        <div id="profileName" class="profile-name">User Name</div>
+                        <div id="profileEmail" class="profile-email">email@example.com</div>
+                    </div>
+                    <hr />
+                    <ul>
+                        <li><a id="profileLink" href="/pages/profile.html">Profile</a></li>
+                        <li><a id="myDonationsLink" href="/pages/donations.html">My Donations</a></li>
+                        <li><a id="logoutBtn" href="#">Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
 
 
 
@@ -76,39 +76,54 @@
     <div id="main-content-sections">
         <!-- 🟢 HERO SECTION WITH SLIDER -->
         <main class="hero" id="hero-section">
-            <div class="slide-container" id="hero-slider">
-                <div class="hero-slide"
-                    style="background-image: url('WhatsApp\ Image\ 2025-10-26\ at\ 5.51.07\ AM.jpeg');">
-                    <div class="hero-content">
-                        <h1>Donate Blood, Save a Life.</h1>
-                        <p>Your single act of kindness can make a world of difference. Join our community of lifesavers today and make a lasting impact.</p>
-                        <a href="#" class="cta-button">Find a Donor Near You</a>
+            <section id="lifelink-carousel" aria-label="LifeLink hero carousel">
+                <div class="ll-carousel">
+                    <div class="ll-slides" id="ll-slides">
+
+                        <!-- Slide 0: Centered width, near bottom -->
+                        <article class="ll-slide slide-0" role="group" aria-roledescription="slide"
+                            aria-label="Donate blood slide">
+                            <div class="ll-slide-bg" style="background-image: url('dbit\(1\).png');"></div>
+                            <div class="ll-slide-content slide-content--bottom-center">
+                                <h1 id="slide0-text">FROM CAMPUS TO COMMUNITY, WE CARE</h1>
+                                <p id="slide0-subtext">Connecting student compassion with real-world change.</p>
+                            </div>
+                        </article>
+
+                        <!-- Slide 1: Left side with text + button -->
+                        <article class="ll-slide slide-1" role="group" aria-roledescription="slide"
+                            aria-label="Donors image slide">
+                            <img src="slide2.png" alt="Donors volunteering" class="ll-img">
+                            <div class="ll-slide-content slide-content--left-centered">
+                                <h2 id="slide1-text">DONATE BLOOD</h2>
+                                <p id="slide1-subtext">Blood is made up of four main components. Red blood cells,
+                                    platelets, plasma and white blood cells. Each whole blood donation has the potential
+                                    to save up to three lives.</p>
+                                <a href="#" id="slide1-btn" class="ll-cta">Become a Donor</a>
+                            </div>
+                        </article>
+
+                        <!-- Slide 2: No text -->
+                        <article class="ll-slide slide-2" role="group" aria-roledescription="slide"
+                            aria-label="NSS logo slide">
+                            <img src="nsslogo.png" alt="NSS logo" class="ll-img">
+                        </article>
                     </div>
-                </div>
-                <div class="hero-slide">
-                    <img id="carousel_slide4image" src="header4.png" >
-                    <!-- <div class="hero-content">
-                        <h1>Give the Gift of Life.</h1>
-                        <p>On your birthday, make someone else's special day as well. Your donation could be the most precious gift of all.</p>
-                        <a href="#" class="cta-button">Learn More</a>
-                    </div> -->
-                </div>
-                <div class="hero-slide"
-                    style="background-image: url('https://placehold.co/1920x1080/880808/FFFFFF?text=Slide+3');">
-                    <div class="hero-content">
-                        <h1>India's Largest Youth-Led Blood Donation Initiative.</h1>
-                        <p>We are a young organization with a big mission: to make India self-sufficient in blood by 2030. Help us achieve it.</p>
-                        <a href="#" class="cta-button">Organize a Camp</a>
+
+                    <!-- Navigation -->
+                    <div class="ll-nav" aria-hidden="false">
+                        <button class="ll-btn ll-prev" data-dir="-1" aria-label="Previous slide">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="ll-btn ll-next" data-dir="1" aria-label="Next slide">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
                     </div>
+
+                    <!-- Indicators -->
+                    <div class="ll-indicators" role="tablist" aria-label="Slide indicators"></div>
                 </div>
-                <div class="hero-slide">
-                    <img id="carousel_slide4image" src="https://nss.gov.in/sites/all/themes/youthaffair/logo.png" >
-                </div>
-            </div>
-            <div class="slider-nav">
-                <button onclick="changeSlide(-1)"><i class="fas fa-chevron-left"></i></button>
-                <button onclick="changeSlide(1)"><i class="fas fa-chevron-right"></i></button>
-            </div>
+            </section>
         </main>
         <!-- HERO SECTION END -->
 
@@ -119,33 +134,39 @@
                 <div class="purpose-item">
                     <i class="fas fa-search-plus"></i>
                     <h3>Bridging the Gap</h3>
-                    <p>Connecting those in need with verified, college-based donors to eliminate crucial delays in emergency situations.</p>
+                    <p>Connecting those in need with verified, college-based donors to eliminate crucial delays in
+                        emergency situations.</p>
                 </div>
                 <div class="purpose-item">
                     <i class="fas fa-hand-holding-heart"></i>
                     <h3>Empowering Our Community</h3>
-                    <p>Built for the students and staff of DBIT, our platform makes it easy to give and receive. We empower every member to become a lifesaver.</p>
+                    <p>Built for the students and staff of DBIT, our platform makes it easy to give and receive. We
+                        empower every member to become a lifesaver.</p>
                 </div>
                 <div class="purpose-item">
                     <i class="fas fa-bullhorn"></i>
                     <h3>Driving Awareness</h3>
-                    <p>Through technology, we promote a culture of social responsibility and raise awareness about the importance of regular blood donation.</p>
+                    <p>Through technology, we promote a culture of social responsibility and raise awareness about the
+                        importance of regular blood donation.</p>
                 </div>
                 <div class="purpose-item">
                     <i class="fas fa-users-cog"></i>
                     <h3>Managed by NSS Volunteers</h3>
-                    <p>Our dedicated NSS volunteers manage donor data and organize successful donation drives, ensuring a seamless process.</p>
+                    <p>Our dedicated NSS volunteers manage donor data and organize successful donation drives, ensuring
+                        a seamless process.</p>
                 </div>
                 <!-- Duplicated for seamless scroll -->
                 <div class="purpose-item">
                     <i class="fas fa-search-plus"></i>
                     <h3>Bridging the Gap</h3>
-                    <p>Connecting those in need with verified, college-based donors to eliminate crucial delays in emergency situations.</p>
+                    <p>Connecting those in need with verified, college-based donors to eliminate crucial delays in
+                        emergency situations.</p>
                 </div>
                 <div class="purpose-item">
                     <i class="fas fa-hand-holding-heart"></i>
                     <h3>Empowering Our Community</h3>
-                    <p>Built for the students and staff of DBIT, our platform makes it easy to give and receive. We empower every member to become a lifesaver.</p>
+                    <p>Built for the students and staff of DBIT, our platform makes it easy to give and receive. We
+                        empower every member to become a lifesaver.</p>
                 </div>
             </div>
         </section>
@@ -283,33 +304,27 @@
                     <i class="fas fa-user-friends stats-icon"></i>
                     <div class="stats-number">150+</div>
                     <div class="stats-description">DBIT Donors Registered</div>
-                    <div class="stat-progress-bar-container">
+                    <!-- <div class="stat-progress-bar-container">
                         <div class="stat-progress-bar" style="width: 75%;"></div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="stats-card">
                     <i class="fas fa-tint stats-icon"></i>
                     <div class="stats-number">100+</div>
                     <div class="stats-description">Blood Units Collected</div>
-                    <div class="stat-progress-bar-container">
-                        <div class="stat-progress-bar" style="width: 50%;"></div>
-                    </div>
+                    
                 </div>
                 <div class="stats-card">
                     <i class="fas fa-heartbeat stats-icon"></i>
                     <div class="stats-number">300+</div>
                     <div class="stats-description">Lives Touched</div>
-                    <div class="stat-progress-bar-container">
-                        <div class="stat-progress-bar" style="width: 80%;"></div>
-                    </div>
+                    
                 </div>
                 <div class="stats-card">
                     <i class="fas fa-calendar-check stats-icon"></i>
                     <div class="stats-number">7+</div>
                     <div class="stats-description">Donation Drives Held</div>
-                    <div class="stat-progress-bar-container">
-                        <div class="stat-progress-bar" style="width: 90%;"></div>
-                    </div>
+                    
                 </div>
             </div>
         </section>
@@ -331,9 +346,11 @@
                 </div>
                 <div class="form-group">
                     <label for="signin-password">Password<span class="required-star">*</span></label>
-                    <input type="password" id="signin-password" name="password" placeholder="Enter your password" required>
+                    <input type="password" id="signin-password" name="password" placeholder="Enter your password"
+                        required>
                 </div>
-                <p class="auth-link" style="margin-top: 15px; margin-bottom: 20px;"><a id="forgot-password-link">Forgot Password?</a></p>
+                <p class="auth-link" style="margin-top: 15px; margin-bottom: 20px;"><a id="forgot-password-link">Forgot
+                        Password?</a></p>
                 <button type="submit" class="auth-button">Sign In</button>
             </form>
             <p class="auth-link">Don't have an account? <a id="switch-to-register">Register here</a></p>
@@ -370,7 +387,8 @@
                 </div>
                 <div class="form-group">
                     <label for="register-email">Email Address<span class="required-star">*</span></label>
-                    <input type="email" id="register-email" name="email" placeholder="Enter your college email" required>
+                    <input type="email" id="register-email" name="email" placeholder="Enter your college email"
+                        required>
                 </div>
                 <div class="form-group">
                     <label for="blood-group">Blood Group<span class="required-star">*</span></label>
@@ -405,7 +423,8 @@
                 </div>
                 <div class="form-group">
                     <label for="register-password">Password<span class="required-star">*</span></label>
-                    <input type="password" id="register-password" name="password" placeholder="Create a password" required>
+                    <input type="password" id="register-password" name="password" placeholder="Create a password"
+                        required>
                 </div>
                 <div class="form-group consent-group">
                     <label class="custom-checkbox-label">
@@ -470,8 +489,10 @@
             <form id="forgot-password-form">
                 <div id="forgot-password-step-1">
                     <div class="form-group">
-                        <label for="forgot-email-phone">Email Address or Phone Number<span class="required-star">*</span></label>
-                        <input type="text" id="forgot-email-phone" name="email-phone" placeholder="Enter your email or 10-digit phone number" required>
+                        <label for="forgot-email-phone">Email Address or Phone Number<span
+                                class="required-star">*</span></label>
+                        <input type="text" id="forgot-email-phone" name="email-phone"
+                            placeholder="Enter your email or 10-digit phone number" required>
                     </div>
                     <button type="button" class="auth-button" id="request-otp-btn">Request OTP</button>
                 </div>
@@ -480,7 +501,8 @@
                     <p class="auth-link" style="margin-bottom: 20px;">An OTP has been sent to your provided contact.</p>
                     <div class="form-group">
                         <label for="otp">OTP<span class="required-star">*</span></label>
-                        <input type="text" id="otp" name="otp" pattern="[0-9]{6}" placeholder="Enter 6-digit OTP" required>
+                        <input type="text" id="otp" name="otp" pattern="[0-9]{6}" placeholder="Enter 6-digit OTP"
+                            required>
                     </div>
                     <button type="button" class="auth-button" id="verify-otp-btn">Verify OTP</button>
                     <p class="auth-link" style="margin-top: 15px;"><a href="#" id="resend-otp-link">Resend OTP</a></p>
@@ -489,10 +511,12 @@
                 <div id="forgot-password-step-3" style="display: none;">
                     <div class="form-group">
                         <label for="new-password">New Password<span class="required-star">*</span></label>
-                        <input type="password" id="new-password" name="new-password" placeholder="Enter new password" required>
+                        <input type="password" id="new-password" name="new-password" placeholder="Enter new password"
+                            required>
                     </div>
                     <div class="form-group">
-                        <label for="confirm-new-password">Confirm New Password<span class="required-star">*</span></label>
+                        <label for="confirm-new-password">Confirm New Password<span
+                                class="required-star">*</span></label>
                         <input type="password" id="confirm-new-password" name="confirm-new-password"
                             placeholder="Confirm new password" required>
                     </div>
@@ -508,7 +532,8 @@
         <div class="footer-container">
             <div class="footer-brand">
                 <span class="logo"><i class="fas fa-heartbeat"></i> LifeLink</span>
-                <p>Empowering the DBIT community to save lives through real-time, verified blood donation management. A project by NSS volunteers.</p>
+                <p>Empowering the DBIT community to save lives through real-time, verified blood donation management. A
+                    project by NSS volunteers.</p>
                 <div class="social-icons">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
@@ -528,9 +553,15 @@
             <div class="footer-contact">
                 <h3>Get in Touch</h3>
                 <ul>
-                    <li><p>Don Bosco Institute of Technology</p></li>
-                    <li><p>Kurla (West), Mumbai - 400 070</p></li>
-                    <li><p>Email: lifelink@dbit.in</p></li>
+                    <li>
+                        <p>Don Bosco Institute of Technology</p>
+                    </li>
+                    <li>
+                        <p>Kurla (West), Mumbai - 400 070</p>
+                    </li>
+                    <li>
+                        <p>Email: lifelink@dbit.in</p>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -551,6 +582,128 @@
             <button class="auth-button" id="message-box-ok-btn">OK</button>
         </div>
     </div>
+
+    <script>
+        /* ===== LifeLink Carousel JS (self-contained) ===== */
+        (function () {
+            const container = document.getElementById('ll-slides');
+            if (!container) return;
+            const slides = Array.from(container.querySelectorAll('.ll-slide'));
+            const prevBtn = document.querySelector('#lifelink-carousel .ll-prev');
+            const nextBtn = document.querySelector('#lifelink-carousel .ll-next');
+            const indicatorsWrap = document.querySelector('#lifelink-carousel .ll-indicators');
+            let current = 0;
+            let autoTimer = null;
+            const AUTO_MS = 5000;
+
+            // build indicators
+            slides.forEach((s, i) => {
+                const btn = document.createElement('button');
+                btn.setAttribute('aria-label', 'Go to slide ' + (i + 1));
+                btn.setAttribute('role', 'tab');
+                btn.dataset.index = String(i);
+                btn.addEventListener('click', (e) => { e.preventDefault(); goTo(i); resetAuto(); });
+                indicatorsWrap.appendChild(btn);
+            });
+
+            // compute sizes (set each slide width inline so no CSS guesswork)
+            function setSizes() {
+                const count = slides.length || 1;
+                container.style.width = (count * 100) + '%';
+                slides.forEach(slide => {
+                    slide.style.width = (100 / count) + '%';
+                    slide.style.flex = `0 0 ${100 / count}%`;
+                });
+            }
+
+            // core move function
+            function goTo(index) {
+                const n = slides.length;
+                const idx = ((index % n) + n) % n;
+                container.style.transform = `translateX(-${idx * (100 / n)}%)`;
+                current = idx;
+                slides.forEach((s, i) => {
+                    s.setAttribute('aria-hidden', i === idx ? 'false' : 'true');
+                    if (i === idx) {
+                        s.dataset.active = 'true';
+                        s.style.zIndex = 2;
+                    } else {
+                        s.removeAttribute('data-active');
+                        s.style.zIndex = 0;
+                    }
+                });
+
+                // update indicators
+                const buttons = Array.from(indicatorsWrap.children);
+                buttons.forEach((b, i) => b.setAttribute('aria-selected', i === idx ? 'true' : 'false'));
+            }
+
+            // prev/next wiring (use data-dir too)
+            function wireNav() {
+                const navButtons = Array.from(document.querySelectorAll('#lifelink-carousel .ll-btn'));
+                navButtons.forEach(btn => {
+                    const dir = Number(btn.getAttribute('data-dir') || 0);
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        if (dir === 0) return;
+                        goTo(current + dir);
+                        resetAuto();
+                    });
+                });
+            }
+
+            // autoplay
+            function startAuto() {
+                if (autoTimer) clearInterval(autoTimer);
+                autoTimer = setInterval(() => goTo(current + 1), AUTO_MS);
+            }
+            function resetAuto() { startAuto(); }
+
+            // touch support (swipe)
+            function wireTouch() {
+                let startX = 0, moved = false;
+                container.addEventListener('touchstart', (e) => {
+                    const t = e.touches[0]; startX = t.clientX; moved = false; clearInterval(autoTimer);
+                }, { passive: true });
+                container.addEventListener('touchmove', (e) => {
+                    moved = true;
+                }, { passive: true });
+                container.addEventListener('touchend', (e) => {
+                    if (!moved) { startAuto(); return; }
+                    const endX = (e.changedTouches && e.changedTouches[0] && e.changedTouches[0].clientX) || startX;
+                    const dx = endX - startX;
+                    if (Math.abs(dx) > 40) {
+                        goTo(current + (dx < 0 ? 1 : -1));
+                    }
+                    startAuto();
+                });
+            }
+
+            // keyboard support
+            function wireKeys() {
+                document.addEventListener('keydown', (e) => {
+                    const tag = (document.activeElement && document.activeElement.tagName) || '';
+                    if (['INPUT', 'TEXTAREA', 'SELECT'].includes(tag)) return; // avoid interfering with typing
+                    if (e.key === 'ArrowLeft') { e.preventDefault(); goTo(current - 1); resetAuto(); }
+                    if (e.key === 'ArrowRight') { e.preventDefault(); goTo(current + 1); resetAuto(); }
+                });
+            }
+
+            // initialize
+            function init() {
+                setSizes();
+                wireNav();
+                wireTouch();
+                wireKeys();
+                goTo(0);
+                startAuto();
+                // recompute sizes on resize
+                window.addEventListener('resize', () => { setSizes(); goTo(current); });
+            }
+
+            init();
+        })();
+    </script>
 
     <!-- Link to the consolidated, site-wide JavaScript -->
     <script src="script/script.js"></script>

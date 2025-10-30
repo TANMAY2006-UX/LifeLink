@@ -331,20 +331,87 @@ function setupNavDropdowns() {
 */
 
 function initHeroSlider() {
-  const slides = $$('.hero-slide');
+  const slides = Array.from(document.querySelectorAll('.hero-slide'));
   const sliderContainer = document.getElementById('hero-slider');
   if (!slides.length || !sliderContainer) return;
   const totalSlides = slides.length;
+
+  // set container width and each slide width (inline so it beats CSS)
   sliderContainer.style.width = `${totalSlides * 100}%`;
-  slides.forEach(slide => slide.style.width = `${100 / totalSlides}%`);
+  slides.forEach(slide => {
+    slide.style.width = `${100 / totalSlides}%`;
+    slide.style.flex = `0 0 ${100 / totalSlides}%`;
+  });
+
+  // current slide index (integer)
+  sliderContainer.dataset.current = sliderContainer.dataset.current || '0';
+
+  function goTo(index) {
+    const idx = ((Number(index) % totalSlides) + totalSlides) % totalSlides;
+    sliderContainer.dataset.current = String(idx);
+    // translate by percentage of the container (container is totalSlides*100% wide)
+    const movePercent = idx * (100 / totalSlides);
+    sliderContainer.style.transform = `translateX(-${movePercent}%)`;
+  }
+
+  // expose (same API name) but do not duplicate bindings
   window.changeSlide = (dir) => {
-    let current = Number(sliderContainer.dataset.current || 0);
-    current = (current + dir + totalSlides) % totalSlides;
-    sliderContainer.dataset.current = current;
-    sliderContainer.style.transform = `translateX(-${current * (100 / totalSlides)}%)`;
+    const current = Number(sliderContainer.dataset.current || 0);
+    goTo(current + Number(dir));
   };
-  setInterval(() => { if (typeof window.changeSlide === 'function') window.changeSlide(1); }, 5000);
+
+  // Bind nav buttons via data-dir (prevents duplication & accidental reverse)
+  const navButtons = Array.from(document.querySelectorAll('.slider-nav button'));
+  navButtons.forEach(btn => {
+    // remove previous handlers (safe)
+    btn.replaceWith(btn.cloneNode(true));
+  });
+  const freshNavButtons = Array.from(document.querySelectorAll('.slider-nav button'));
+  freshNavButtons.forEach(btn => {
+    const dir = Number(btn.getAttribute('data-dir') || 0);
+    if (dir === 0) return;
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.changeSlide(dir);
+      resetAuto();
+    });
+  });
+
+  // keyboard support, but don't reattach if already attached
+  if (!document._heroSliderKeybound) {
+    document._heroSliderKeybound = true;
+    document.addEventListener('keydown', (e) => {
+      const tag = (document.activeElement && document.activeElement.tagName) || '';
+      const editable = document.activeElement && (document.activeElement.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(tag));
+      if (editable) return;
+      if (e.key === 'ArrowLeft') { e.preventDefault(); window.changeSlide(-1); resetAuto(); }
+      if (e.key === 'ArrowRight') { e.preventDefault(); window.changeSlide(1); resetAuto(); }
+    });
+  }
+
+  // auto-advance
+  let autoTimer = setInterval(() => window.changeSlide(1), 5000);
+  function resetAuto() {
+    clearInterval(autoTimer);
+    autoTimer = setInterval(() => window.changeSlide(1), 5000);
+  }
+
+  // ensure layout correct immediately
+  goTo(Number(sliderContainer.dataset.current || 0));
+
+  // reposition on resize (debounced)
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      // recompute widths in case CSS/layout changed
+      sliderContainer.style.width = `${slides.length * 100}%`;
+      slides.forEach(slide => slide.style.width = `${100 / slides.length}%`);
+      goTo(Number(sliderContainer.dataset.current || 0));
+    }, 120);
+  });
 }
+
 
 function wireCompatibility() {
   const selectorContainer = document.getElementById('blood-type-selector');

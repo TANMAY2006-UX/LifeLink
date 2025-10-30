@@ -387,15 +387,18 @@
             height: 85vh;
         }
 
+        /* Slider: remove fixed 400% / 25% rules; let JS set sizes reliably */
         .slide-container {
             display: flex;
-            width: 400%;
+            width: auto;
+            /* JS will set exact width inline */
             height: 100%;
             transition: transform 0.5s ease-in-out;
+            will-change: transform;
         }
 
         .hero-slide {
-            width: 25%;
+            /* width removed (JS will set it inline). keep flex behavior */
             height: 100%;
             display: flex;
             justify-content: center;
@@ -406,16 +409,29 @@
             text-align: center;
             padding: 20px;
             position: relative;
+            flex: 0 0 auto;
+            /* allow JS to override inline width */
+            overflow: hidden;
         }
 
+        /* lighter overlay so images show through; explicit stacking */
         .hero-slide::after {
-            content: '';
+            content: "";
             position: absolute;
-            top: 0;
-            left: 0;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.18);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* make <img> behave like cover backgrounds */
+        .hero-slide img {
+            position: relative;
+            z-index: 2;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
+            object-fit: cover;
+            display: block;
         }
 
         .hero-content {
@@ -611,7 +627,7 @@
         /* 🟢 CTA BUTTONS SECTION */
         .cta-container {
             padding: 120px 40px;
-            background: url('https://imgs.search.brave.com/vVhLI3Sdnb_x4j2RKyDIW93ha0hmtoBPxzCpCzd4J7Q/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5pc3RvY2twaG90/by5jb20vaWQvMTQ3/NTMwNjU4MC9waG90/by9yZWQtYmxvb2Qt/Y2VsbHMtZXJ5dGhy/b2N5dGVzLmpwZz9z/PTYxMng2MTImdz0w/Jms9MjAmYz1IbDNP/NzBsU1RsUnFfeXF3/UjNCNndPNzh5X184/Q18yY2c0Q2U5eERZ/V2pjPQ') no-repeat center center/cover;
+            background: url('/bloodcells.png') no-repeat center center/cover;
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -1909,7 +1925,7 @@
             /* default text color (white on dark navbar) */
             background: transparent;
             /* default transparent */
-            
+
         }
 
         /* Outline/secondary (Sign In) */
@@ -1958,5 +1974,426 @@
             .navbar .nav-right .btn {
                 padding: 8px 12px;
                 font-size: 0.92rem;
+            }
+        }
+
+        /* ======= LifeLink Carousel (scoped) ======= */
+        /* Keep selectors specific to avoid colliding with site CSS */
+        #lifelink-carousel {
+            width: 100%;
+            max-height: 85vh;
+            overflow: hidden;
+            display: block;
+        }
+
+        #lifelink-carousel .ll-carousel {
+            position: relative;
+            height: 85vh;
+            min-height: 380px;
+            background: #000;
+        }
+
+        /* slides container */
+        #lifelink-carousel .ll-slides {
+            display: flex;
+            flex-wrap: nowrap;
+            transition: transform 520ms cubic-bezier(.22, .9, .3, 1);
+            height: 100%;
+            will-change: transform;
+        }
+
+        /* individual slide */
+        #lifelink-carousel .ll-slide {
+            flex: 0 0 100%;
+            min-width: 0;
+            /* prevents overflow in some browsers */
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+            /* prevent images from escaping */
+            isolation: isolate;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #111;
+            box-sizing: border-box;
+        }
+
+        /* background-image variant (cover) */
+        #lifelink-carousel .ll-slide-bg {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center 58%;
+            z-index: 1;
+            transform: translateZ(0);
+        }
+
+        /* <img> variant behavior */
+        #lifelink-carousel .ll-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            display: block;
+            z-index: 1;
+        }
+
+        /* content overlay (text/buttons) */
+        #lifelink-carousel .ll-slide-content {
+            position: relative;
+            z-index: 3;
+            max-width: 900px;
+            padding: 24px;
+            color: #fff;
+            text-align: center;
+            pointer-events: none;
+            /* text doesn't block nav; CTA will override pointer-events */
+        }
+
+        /* CTA */
+        #lifelink-carousel .ll-cta {
+            pointer-events: auto;
+            display: inline-block;
+            margin-top: 18px;
+            background: #c0392b;
+            color: white;
+            padding: 12px 22px;
+            border-radius: 28px;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        /* subtle overlay to keep text readable */
+        #lifelink-carousel .ll-slide::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.18) 0%, rgba(0, 0, 0, 0.35) 100%);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        /* nav buttons — visually outside central image area */
+        #lifelink-carousel .ll-nav {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 6;
+            pointer-events: none;
+            padding: 0 14px;
+        }
+
+        #lifelink-carousel .ll-btn {
+            pointer-events: auto;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.18);
+            color: #880808;
+            font-size: 1.05rem;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+            transition: transform .12s ease, background .12s ease;
+        }
+
+        #lifelink-carousel .ll-btn:hover {
+            transform: translateY(-3px);
+            background: rgba(255, 255, 255, 0.28);
+        }
+
+        /* Indicators */
+        #lifelink-carousel .ll-indicators {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 14px;
+            display: flex;
+            gap: 8px;
+            z-index: 7;
+        }
+
+        #lifelink-carousel .ll-indicators button {
+            width: 10px;
+            height: 10px;
+            border-radius: 99px;
+            border: none;
+            background: rgba(255, 255, 255, 0.45);
+            cursor: pointer;
+            padding: 0;
+        }
+
+        #lifelink-carousel .ll-indicators button[aria-selected="true"] {
+            background: #ffd1d1;
+            transform: scale(1.25);
+        }
+
+        /* responsive tweaks */
+        @media (max-width: 900px) {
+            #lifelink-carousel .ll-slide-content h1 {
+                font-size: 1.8rem;
+            }
+
+            #lifelink-carousel .ll-slide-content p {
+                font-size: 1rem;
+            }
+
+            #lifelink-carousel .ll-btn {
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            #lifelink-carousel {
+                height: 65vh;
+            }
+
+            #lifelink-carousel .ll-slide-content {
+                padding: 12px;
+            }
+
+            #lifelink-carousel .ll-cta {
+                padding: 10px 16px;
+                font-size: 0.95rem;
+            }
+        }
+
+        /* ---------- slide-specific overlays ---------- */
+        /* base behavior already exists: .ll-slide-content (z-index:3) */
+        /* We'll add a few variants and responsive tweaks */
+
+        /* Default content tweaks (shared) */
+        #lifelink-carousel .ll-slide-content {
+            position: absolute;
+            /* make overlay absolutely positioned inside slide */
+            color: #fff;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* CTA should always be clickable */
+        #lifelink-carousel .ll-cta {
+            pointer-events: auto;
+            display: inline-block;
+            margin-top: 12px;
+            background: #c0392b;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 24px;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        /* Slide 0: position bottom-left (on "green grass" area) */
+        #lifelink-carousel .ll-slide.slide-0 .slide-content--bottom-left {
+            left: 6%;
+            bottom: 8%;
+            max-width: 520px;
+            text-align: left;
+        }
+
+        /* Slightly larger, bolder headline for hero slide */
+        #lifelink-carousel .ll-slide.slide-0 .ll-title--large {
+            font-size: 2.4rem;
+            margin: 0 0 8px 0;
+            line-height: 1.05;
+            font-weight: 800;
+        }
+
+        /* Slide 1: left side, vertically centered */
+        #lifelink-carousel .ll-slide.slide-1 .slide-content--left-centered {
+            left: 6%;
+            top: 50%;
+            transform: translateY(-50%);
+            max-width: 420px;
+            text-align: left;
+        }
+
+        /* Medium heading on slide 1 */
+        #lifelink-carousel .ll-slide.slide-1 .ll-title--med {
+            font-size: 1.6rem;
+            margin: 0 0 6px 0;
+            font-weight: 700;
+        }
+
+        /* Copy sizes */
+        #lifelink-carousel .ll-copy--md {
+            font-size: 1.05rem;
+            margin: 0;
+        }
+
+        #lifelink-carousel .ll-copy {
+            font-size: 0.98rem;
+            margin: 8px 0 0 0;
+        }
+
+        /* Make text readable on top of images by slightly darkening the area behind content */
+        #lifelink-carousel .ll-slide .ll-slide-content::before {
+            content: "";
+            position: absolute;
+            inset: -12px;
+            z-index: -1;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0.28));
+            border-radius: 6px;
+            pointer-events: none;
+        }
+
+        /* Responsive: scale headings down on smaller screens */
+        @media (max-width: 900px) {
+            #lifelink-carousel .ll-slide.slide-0 .ll-title--large {
+                font-size: 1.7rem;
+            }
+
+            #lifelink-carousel .ll-slide.slide-1 .ll-title--med {
+                font-size: 1.4rem;
+            }
+
+            #lifelink-carousel .ll-slide.slide-1 .slide-content--left-centered {
+                left: 4%;
+                max-width: 340px;
+            }
+        }
+
+        /* Mobile: move bottom-left hero content a bit higher */
+        @media (max-width: 520px) {
+            #lifelink-carousel .ll-slide.slide-0 .slide-content--bottom-left {
+                left: 6%;
+                bottom: 6%;
+                max-width: 80%;
+            }
+
+            #lifelink-carousel .ll-slide {
+                height: 65vh;
+                /* keep existing mobile height */
+            }
+        }
+
+        /* Ensure slide content does not get hidden by the built-in overlay pseudo-element */
+        #lifelink-carousel .ll-slide::after {
+            z-index: 2;
+        }
+
+        /* overlay dim sits behind content (z-index:2) */
+        #lifelink-carousel .ll-slide-content {
+            z-index: 3;
+        }
+
+        /* ===== Custom Slide Content Positioning (Clean Version) ===== */
+
+        /* remove gradient box */
+        #lifelink-carousel .ll-slide .ll-slide-content::before {
+            content: none !important;
+        }
+
+        /* ensure each slide content sits absolutely over the image */
+        #lifelink-carousel .ll-slide-content {
+            position: absolute;
+            color: #fff;
+            z-index: 3;
+            pointer-events: none;
+            /* allows navigation through slides */
+        }
+
+        /* --- Slide 0: bottom center --- */
+        #lifelink-carousel .slide-0 .slide-content--bottom-center {
+            bottom: 72%;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            max-width: 600px;
+        }
+
+        /* Slide 0 text sizes */
+        #slide0-text {
+            font-size: 28px;
+            width: 470px;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+
+        #slide0-subtext {
+            font-size: 18px;
+            text-align: center;
+            margin-top: 4px;
+        }
+
+        /* --- Slide 1: left-centered --- */
+        #lifelink-carousel .slide-1 .slide-content--left-centered {
+            left: 6%;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: left;
+            max-width: 420px;
+        }
+
+        /* unique slide 1 elements */
+        #slide1-text {
+            font-size: 42PX;
+            font-weight: 700;
+            margin-bottom: 17px;
+        }
+
+        #slide1-subtext {
+            font-size: 18PX;
+            margin-top: 5px;
+            margin-bottom: 17px;
+            width: 450px;
+        }
+
+        #slide1-btn {
+            pointer-events: auto;
+            display: inline-block;
+            margin-top: 12px;
+            background: #c0392b;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 26px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: background 0.2s ease;
+        }
+
+        #slide1-btn:hover {
+            background: #a62b1f;
+        }
+
+        /* --- Slide 2: no text, clean --- */
+        #lifelink-carousel .slide-2 .ll-slide-content {
+            display: none;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 900px) {
+            #slide0-text {
+                font-size: 1.8rem;
+            }
+
+            #slide0-subtext {
+                font-size: 1rem;
+            }
+
+            #slide1-text {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 520px) {
+            #lifelink-carousel .slide-0 .slide-content--bottom-center {
+                bottom: 8%;
+                max-width: 80%;
+            }
+
+            #lifelink-carousel .slide-1 .slide-content--left-centered {
+                left: 5%;
+                max-width: 85%;
             }
         }
